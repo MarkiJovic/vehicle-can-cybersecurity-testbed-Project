@@ -1,0 +1,6 @@
+# Update this file based on the exact Python packages used by your final code.
+# Some ROS packages are installed through apt/ROS rather than pip.
+
+roslibpy
+python-can
+Pillow
