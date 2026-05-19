@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="debug" default="true"/>
+    
+    <node name="can_bridge" pkg="car_nodes" type="can_bridge.py" output="screen"/>
+    
+    <node name="engine_control" pkg="car_nodes" type="can_engine_node.py" output="screen"/>
+    
+    <node name="transmission_control" pkg="car_nodes" type="transmission_control_node.py" output="screen"/>
+    
+    <node name="brake_system" pkg="car_nodes" type="brake_system_node.py" output="screen"/>
+    
+    <node name="steering_system" pkg="car_nodes" type="steering_system_node.py" output="screen"/>
+    
+    <node name="vehicle_speed" pkg="car_nodes" type="vehicle_speed_node.py" output="screen"/>
+    
+    <node name="car_monitor" pkg="car_nodes" type="car_monitor_node.py" output="screen" if="$(arg debug)"/>
+    
+    <node name="attack_injection_node" pkg="car_nodes" type="Attack_node.py" output="screen"> <param name="channel" value="can0"/> <param name="bustype" value="socketcan"/> <param name="bitrate" value="500000"/> </node>
+
+
+</launch>
