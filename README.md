@@ -36,31 +36,11 @@ The project was designed to show how insecure in-vehicle communication can affec
 
 Add screenshots to the `images/` folder and update the names below if needed.
 
-```markdown
 ![Dashboard Screenshot](images/dashboard.png)
 ![CARLA Simulation](images/carla-simulation.png)
 ![CAN Traffic](images/can-traffic.png)
 ![System Architecture](images/system-architecture.png)
-```
 
-### Video Demonstration
-
-Add your video link here:
-
-```markdown
-[Watch the demo video](PASTE_VIDEO_LINK_HERE)
-```
-
-Recommended video content:
-
-1. Start CARLA and ROS environment
-2. Show the dashboard connected to ROS/CAN
-3. Demonstrate normal vehicle behaviour
-4. Trigger a CAN attack scenario
-5. Show CAN traffic and IDS/security alert output
-6. Explain what the attack demonstrates
-
----
 
 ## System Architecture
 
