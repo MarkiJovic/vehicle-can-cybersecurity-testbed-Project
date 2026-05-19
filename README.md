@@ -34,7 +34,6 @@ The project was designed to show how insecure in-vehicle communication can affec
 
 ### Screenshots
 
-Add screenshots to the `images/` folder and update the names below if needed.
 
 ![Dashboard Screenshot](images/dashboard.png)
 ![CARLA Simulation](images/carla-simulation.png)
@@ -197,9 +196,7 @@ This structure can be adjusted depending on the final file names used in the pro
 
 ---
 
-## Setup Overview
 
-Detailed setup instructions are available in [`docs/setup-guide.md`](docs/setup-guide.md).
 
 ### Requirements
 
