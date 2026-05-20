@@ -1,6 +1,6 @@
 # Vehicle CAN Cybersecurity Testbed
 
-A CARLA–ROS virtual testbed for demonstrating CAN-based cyber attacks against an autonomous vehicle, including spoofing, replay, denial-of-service (DoS), a LiDAR false-obstacle sensor attack, and rule-based IDS monitoring.
+A CARLA–ROS virtual testbed for demonstrating CAN-based cyber attacks against an autonomous vehicle, including spoofing, replay, denial-of-service (DoS), a LiDAR false-obstacle sensor attack and rule-based IDS monitoring.
 
 ## Overview
 
@@ -79,7 +79,7 @@ CARLA / BehaviorAgent -> Control -> CAN-style frames -> Vehicle
 
 Under normal conditions, the CARLA autonomous controller drives the vehicle and mirrors its control values into CAN-style frames for monitoring and replay capture.
 
-During attacks, malicious CAN frames can interfere with throttle, steering, or braking behaviour. Because the autonomous controller remains active, the final behaviour is a **hybrid control conflict** rather than a complete controller takeover. This means the vehicle may visibly resist some attacks while still being affected by them.
+During attacks, malicious CAN frames can interfere with throttle, steering or braking behaviour. Because the autonomous controller remains active, the final behaviour is a **hybrid control conflict** rather than a complete controller takeover. This means the vehicle may visibly resist some attacks while still being affected by them.
 
 ---
 
@@ -144,7 +144,7 @@ vehicle-can-cybersecurity-testbed-Project/
 
 ## Project Outcome
 
-This project demonstrates that insecure CAN-style control paths can be manipulated to affect autonomous vehicle behaviour, and that sensor/perception-level interference can also indirectly influence vehicle decisions.
+This project demonstrates that insecure CAN-style control paths can be manipulated to affect autonomous vehicle behaviour and that sensor/perception-level interference can also indirectly influence vehicle decisions.
 
 The testbed provides a safe and reproducible platform for studying:
 
