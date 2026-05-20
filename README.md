@@ -1,274 +1,193 @@
 # Vehicle CAN Cybersecurity Testbed
 
-A final-year cybersecurity project demonstrating CAN bus security risks, attack simulation, and basic intrusion detection using CARLA, ROS Noetic, Python, and PCAN-USB hardware.
-
-> **Project focus:** This project was developed for academic and educational cybersecurity research in a controlled simulation/testbed environment.
-
----
+A CARLA–ROS virtual testbed for demonstrating CAN-based cyber attacks against an autonomous vehicle, including spoofing, replay, denial-of-service (DoS), a LiDAR false-obstacle sensor attack, and rule-based IDS monitoring.
 
 ## Overview
 
-This project builds a virtual vehicle cybersecurity testbed where a simulated vehicle in CARLA is connected to a ROS-based control and monitoring environment. Vehicle control and status data are represented as CAN-style messages, allowing different CAN-layer attack scenarios to be demonstrated and monitored.
+This project was developed as a final year cybersecurity project to explore how insecure in-vehicle communication can affect autonomous driving behaviour.
 
-Under normal conditions, the vehicle follows expected driving behaviour in CARLA. During an active attack scenario, injected or replayed CAN messages can temporarily influence vehicle control, making the security impact visible in the simulation and dashboard.
+The system combines:
 
-The project was designed to show how insecure in-vehicle communication can affect vehicle behaviour and how simple intrusion detection logic can help identify suspicious CAN traffic.
+- **CARLA** for autonomous vehicle simulation
+- **ROS Noetic** for middleware and node communication
+- **CAN-style control frames** for throttle, steering, and brake
+- **A custom dashboard** for attack triggering and monitoring
+- **A rule-based IDS** for live attack detection
+- **A LiDAR-based sensor attack** to demonstrate perception-layer interference
+
+The project focuses on how malicious CAN traffic and manipulated sensor data can influence autonomous vehicle control in a safe virtual environment.
 
 ---
 
 ## Key Features
 
-- CARLA vehicle simulation environment
-- ROS Noetic integration
-- CAN bus communication using PCAN-USB hardware
-- Python dashboard for monitoring vehicle state and CAN traffic
-- CAN control messages for throttle, steering, and braking
-- Attack demonstrations including injection, replay, fuzzing, and denial-of-service behaviour
-- Basic IDS alerts for suspicious CAN activity
-- Hybrid control model combining normal CARLA driving with CAN-based attack override
-- Documentation for setup, troubleshooting, and demonstration
+- Autonomous driving in CARLA using `BehaviorAgent`
+- CAN control mapping for:
+  - `0x100` Throttle
+  - `0x101` Steering
+  - `0x102` Brake
+- Direct spoofing attacks:
+  - Throttle
+  - Steering
+  - Brake
+- Replay attack with **record now / replay later**
+- Denial-of-Service (DoS) attack
+- LiDAR false-obstacle sensor attack
+- Real-time dashboard for:
+  - CAN traffic
+  - attack controls
+  - IDS alerts
+- Rule-based IDS for suspicious control traffic and flooding
+- Logging support for attack and CAN activity
 
 ---
 
 ## System Architecture
 
-```text
-+-------------------+        +-------------------+        +-------------------+
-|   CARLA Simulator | <----> |      ROS Noetic   | <----> |   Python Dashboard|
-|   Windows 11      |        |   Ubuntu 20.04    |        |   Monitoring/GUI  |
-+-------------------+        +-------------------+        +-------------------+
-                              |
-                              |
-                              v
-                       +----------------+
-                       |   CAN Bridge   |
-                       |   PCAN-USB     |
-                       +----------------+
-                              |
-                              v
-                       +----------------+
-                       |  CAN Traffic   |
-                       |  IDS/Attacks   |
-                       +----------------+
-```
+The project is split across two environments.
 
-### Component Summary
+### Windows host
+Runs:
 
-| Component | Purpose |
-|---|---|
-| CARLA | Simulates the vehicle and driving environment |
-| ROS Noetic | Handles communication between simulation, nodes, and dashboard |
-| CAN Bridge | Converts vehicle control/status data into CAN-style messages |
-| PCAN-USB | Provides physical CAN hardware interface for testing |
-| Dashboard | Displays vehicle state, CAN messages, and attack controls |
-| IDS Node | Monitors CAN traffic and raises alerts for suspicious behaviour |
-| Attack Node | Demonstrates controlled CAN-layer attack scenarios |
+- CARLA simulator
+- autonomous driving script
+- traffic generation script
+- dashboard interface
+- LiDAR safety / sensor attack script
 
----
+### Ubuntu / ROS environment
+Runs:
 
-## Technologies Used
+- ROS core
+- rosbridge
+- CAN bridge
+- attack injection node
+- IDS node
+- logger
+- supporting ROS package and launch files
 
-- Python
-- ROS Noetic
-- CARLA 0.9.13
-- Ubuntu 20.04
-- Windows 11
-- PCAN-USB
-- SocketCAN
-- Tkinter
-- CAN bus message analysis
-- Wireshark / candump / cansend
-
----
-
-## CAN Message Design
-
-The project uses CAN-style messages to represent vehicle control and status information.
-
-### Control Messages
-
-| CAN ID | Message | Description |
-|---|---|---|
-| `0x100` | Throttle Control | Controls throttle input |
-| `0x101` | Steering Control | Controls steering input |
-| `0x102` | Brake Control | Controls braking input |
-
-### Status Messages
-
-| CAN ID | Message | Description |
-|---|---|---|
-| `0x200` | Engine Status | Represents engine-related data |
-| `0x203` | Transmission Status | Represents gear/speed-related data |
-| `0x204` | Brake System Status | Represents brake-related data |
-
-These messages were used to demonstrate how normal traffic can be monitored and how malicious or abnormal traffic can affect the simulated vehicle.
-
----
-
-## Attack Scenarios
-
-### 1. Throttle Injection
-
-Injects throttle control messages to demonstrate how unauthorised CAN traffic could influence acceleration behaviour in a vulnerable system.
-
-### 2. Brake Injection
-
-Injects braking messages to demonstrate how control messages could interfere with normal driving behaviour.
-
-### 3. Replay Attack
-
-Replays previously captured CAN messages to show how valid but reused messages can still cause unsafe or unexpected behaviour.
-
-### 4. Fuzzing
-
-Sends abnormal or unexpected CAN values to test how the system responds to unusual input.
-
-### 5. Denial of Service Behaviour
-
-Generates high-rate CAN traffic to demonstrate how message flooding can affect monitoring and system reliability.
-
-> These scenarios are demonstrated only in a controlled simulation and testbed environment.
-
----
-
-## Intrusion Detection
-
-A basic IDS component monitors CAN traffic for suspicious behaviour such as:
-
-- unexpected control values
-- high-frequency CAN messages
-- repeated or replayed frames
-- abnormal changes in throttle, steering, or braking
-- traffic patterns that differ from normal driving behaviour
-
-When suspicious activity is detected, alerts are displayed in the dashboard/security alert area.
-
----
-
-## Repository Structure
+### Data flow
 
 ```text
-vehicle-can-cybersecurity-testbed/
-│
+CARLA / BehaviorAgent -> Control -> CAN-style frames -> Vehicle
+                ^                           ^
+                |                           |
+         Sensor Safety Layer          Attack Node
+                ^                           |
+              LiDAR                      IDS / Logger
+
+Under normal conditions, the CARLA autonomous controller drives the vehicle and mirrors its control values into CAN-style frames for monitoring and replay capture.
+
+During attacks, malicious CAN frames can interfere with throttle, steering, or braking behaviour. Because the autonomous controller remains active, the final behaviour is a hybrid control conflict rather than a complete controller takeover. This means the vehicle may visibly resist some attacks while still being affected by them.
+
+Attack Scenarios
+1. Throttle attack
+
+Injects malicious throttle values to cause unintended acceleration or conflict with normal autonomous control.
+
+2. Steering attack
+
+Injects malicious steering values to disturb lane following and route tracking.
+
+3. Brake attack
+
+Injects malicious brake values to force unintended deceleration.
+
+4. Replay attack
+
+Records legitimate CAN control frames and replays them later in a different driving context.
+
+5. DoS attack
+
+Floods critical control IDs at a high rate to disrupt normal control communication.
+
+6. Sensor attack
+
+Injects a false obstacle into LiDAR-derived perception data so the safety logic brakes even when the road ahead is clear.
+
+IDS
+
+The project includes a lightweight rule-based Intrusion Detection System that monitors control traffic and raises alerts for:
+
+suspicious transmitted control frames
+extreme throttle values
+extreme brake values
+abnormal steering deviation
+high-rate flooding consistent with DoS behaviour
+
+IDS alerts are displayed live in the dashboard.
+
+Repository Structure
+vehicle-can-cybersecurity-testbed-Project/
+├── dashboard/          # Dashboard code and related files
+├── docs/               # Project documentation
+├── launch/             # ROS launch files
+├── ros_nodes/          # ROS nodes (attack node, IDS, bridge, logger, etc.)
 ├── README.md
-├── docs/
-│   ├── setup-guide.md
-│   ├── attack-scenarios.md
-│   ├── architecture.md
-│   └── troubleshooting.md
-│
-├── dashboard/
-│   └── dashboard.py
-│
-├── ros_nodes/
-│   ├── can_bridge.py
-│   ├── ids_node.py
-│   └── attack_node.py
-│
-├── launch/
-│   └── full_system.launch
-│
-├── requirements.txt
-└── .gitignore
-```
+└── requirements.txt
+Documentation
 
-This structure can be adjusted depending on the final file names used in the project.
+The docs/ folder contains supporting material such as:
 
----
+architecture notes
+setup guidance
+attack explanations
+troubleshooting information
 
+Suggested docs to include:
 
+architecture.md
+setup-guide.md
+attack-scenarios.md
+troubleshooting.md
+Example Demo Flow
 
-### Requirements
+A typical demonstration follows this order:
 
-- Windows 11 host machine
-- Ubuntu 20.04 environment
-- ROS Noetic
-- CARLA 0.9.13
-- Python 3.7 for CARLA API compatibility
-- PCAN-USB adapters
-- CAN wiring with correct termination
-- Required Python packages listed in `requirements.txt`
+Start CARLA
+Start ROS and rosbridge
+Launch the ROS package / required nodes
+Start traffic generation
+Start autonomous driving
+Open the dashboard
+Show normal driving baseline
+Trigger CAN attacks
+Show IDS alerts
+Trigger the LiDAR false-obstacle attack
 
-### Example Launch Steps
+This creates a clear comparison between:
 
-Start CARLA on Windows:
+normal operation
+direct control-plane attacks
+indirect perception-layer attack effects
+Technologies Used
+CARLA 0.9.13
+ROS Noetic
+Python 3.7
+SocketCAN / python-can
+pygame
+roslibpy
+PCAN-USB (used during development/testing)
+HTML/CSS/JavaScript (for project showcase material)
+Project Outcome
 
-```powershell
-CarlaUE4.exe /Game/Carla/Maps/Town01 -windowed -ResX=800 -ResY=600 -carla-server
-```
+This project demonstrates that insecure CAN-style control paths can be manipulated to affect autonomous vehicle behaviour, and that sensor/perception-level interference can also indirectly influence vehicle decisions.
 
-Start ROS core on Ubuntu:
+The testbed provides a safe and reproducible platform for studying:
 
-```bash
-roscore
-```
+CAN-based attack effects
+control-loop interference
+replay and flooding behaviour
+simple IDS-based monitoring
+interaction between autonomous driving and malicious input
+Future Improvements
 
-Launch the CARLA ROS bridge:
+Possible future extensions include:
 
-```bash
-roslaunch carla_ros_bridge carla_ros_bridge.launch host:=<WINDOWS_IP> port:=2000 timeout:=10000
-```
-
-Launch the project nodes:
-
-```bash
-roslaunch car_nodes complete_car_simulation.launch debug:=true
-```
-
-Launch rosbridge for the dashboard:
-
-```bash
-roslaunch rosbridge_server rosbridge_websocket.launch
-```
-
-Run the dashboard:
-
-```bash
-python dashboard.py
-```
-
-> Replace placeholder IP addresses and file paths with the correct values for your environment.
-
----
-
-## What I Learned
-
-Through this project, I gained practical experience with:
-
-- vehicle cybersecurity concepts
-- CAN bus communication
-- attack simulation in a controlled testbed
-- ROS and CARLA integration
-- Python-based dashboard development
-- Linux and Windows networking troubleshooting
-- physical CAN hardware setup using PCAN-USB
-- intrusion detection logic for CAN traffic
-- documenting and presenting a cybersecurity project
-
----
-
-## Future Improvements
-
-Possible future improvements include:
-
-- improving IDS accuracy and reducing false positives
-- adding more realistic replay and DoS scenarios
-- improving dashboard visualisation
-- adding automated logging and report generation
-- expanding the CAN message model
-- adding more detailed attack comparison results
-- creating a GitHub Pages website for a cleaner project showcase
-
----
-
-## Disclaimer
-
-This project is intended for academic, educational, and defensive cybersecurity research only. All attack scenarios are designed for a controlled simulation and testbed environment. The project should not be used against real vehicles, real networks, or systems without permission.
-
----
-
-## Author
-
-**Marko Jovic**  
-BSc Cyber Crime and IT Security  
+stronger sensor/perception attack models
+authenticated CAN or gateway protections
+more advanced IDS techniques
+cleaner full-system launch automation
+richer logging and replay analysis
+expanded visualisation and metrics
 SETU Carlow
