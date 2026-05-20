@@ -138,7 +138,7 @@ vehicle-can-cybersecurity-testbed-Project/
 - **SocketCAN / python-can**
 - **pygame**
 - **roslibpy**
-- **PCAN-USB** (used during development/testing)
+- **PCAN-USB**
 
 ---
 
