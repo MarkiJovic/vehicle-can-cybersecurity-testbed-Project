@@ -123,10 +123,10 @@ IDS alerts are displayed live in the dashboard.
 
 ```text
 vehicle-can-cybersecurity-testbed-Project/
-├── dashboard/          # Dashboard code and related files
 ├── docs/               # Project documentation
-├── launch/             # ROS launch files
+├── launch/             # ROS launch file
 ├── ros_nodes/          # ROS nodes (attack node, IDS, bridge, logger, etc.)
+├── windows/            # Windows scripts ( Dashboard, sensors, atutomatic control, traffic generation)
 ├── README.md
 └── requirements.txt
 ```
