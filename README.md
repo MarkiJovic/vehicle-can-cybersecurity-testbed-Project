@@ -195,32 +195,6 @@ Possible future extensions include:
 
 ---
 
-## Screenshots
-
-Add your screenshots here for a stronger project showcase.
-
-Example:
-
-```md
-![Dashboard](images/dashboard.png)
-![Sensor Attack](images/sensor_attack.png)
-```
-
----
-
-## CV / Portfolio Use
-
-This repository is intended as a project showcase for cybersecurity, automotive security, and simulation-based testing. It highlights:
-
-- secure systems thinking
-- attack modelling
-- ROS/CARLA integration
-- CAN protocol understanding
-- intrusion detection concepts
-- practical debugging and system integration
-
----
-
 ## Author
 
 **Marko Jovic**
