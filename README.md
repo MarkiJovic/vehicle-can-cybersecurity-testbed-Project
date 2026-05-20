@@ -130,32 +130,6 @@ vehicle-can-cybersecurity-testbed-Project/
 ├── README.md
 └── requirements.txt
 ```
-
----
-
-## Example Demo Flow
-
-A typical demonstration follows this order:
-
-1. Start CARLA
-2. Start ROS and rosbridge
-3. Launch the ROS package / required nodes
-4. Start traffic generation
-5. Start autonomous driving
-6. Open the dashboard
-7. Show normal driving baseline
-8. Trigger CAN attacks
-9. Show IDS alerts
-10. Trigger the LiDAR false-obstacle attack
-
-This creates a clear comparison between:
-
-- normal operation
-- direct control-plane attacks
-- indirect perception-layer attack effects
-
----
-
 ## Technologies Used
 
 - **CARLA 0.9.13**
