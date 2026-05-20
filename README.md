@@ -30,17 +30,6 @@ The project was designed to show how insecure in-vehicle communication can affec
 
 ---
 
-## Demo
-
-### Screenshots
-
-
-![Dashboard Screenshot](images/dashboard.png)
-![CARLA Simulation](images/carla-simulation.png)
-![CAN Traffic](images/can-traffic.png)
-![System Architecture](images/system-architecture.png)
-
-
 ## System Architecture
 
 ```text
@@ -168,15 +157,6 @@ vehicle-can-cybersecurity-testbed/
 │   ├── architecture.md
 │   └── troubleshooting.md
 │
-├── images/
-│   ├── dashboard.png
-│   ├── carla-simulation.png
-│   ├── can-traffic.png
-│   └── system-architecture.png
-│
-├── videos/
-│   └── demo-link.md
-│
 ├── dashboard/
 │   └── dashboard.py
 │
@@ -186,7 +166,7 @@ vehicle-can-cybersecurity-testbed/
 │   └── attack_node.py
 │
 ├── launch/
-│   └── complete_car_simulation.launch
+│   └── full_system.launch
 │
 ├── requirements.txt
 └── .gitignore
