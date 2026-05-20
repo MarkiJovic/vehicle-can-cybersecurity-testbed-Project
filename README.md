@@ -81,32 +81,32 @@ Under normal conditions, the CARLA autonomous controller drives the vehicle and 
 
 During attacks, malicious CAN frames can interfere with throttle, steering, or braking behaviour. Because the autonomous controller remains active, the final behaviour is a hybrid control conflict rather than a complete controller takeover. This means the vehicle may visibly resist some attacks while still being affected by them.
 
-Attack Scenarios
-1. Throttle attack
+### Attack Scenarios
+### 1. Throttle attack
 
 Injects malicious throttle values to cause unintended acceleration or conflict with normal autonomous control.
 
-2. Steering attack
+### 2. Steering attack
 
 Injects malicious steering values to disturb lane following and route tracking.
 
-3. Brake attack
+### 3. Brake attack
 
 Injects malicious brake values to force unintended deceleration.
 
-4. Replay attack
+### 4. Replay attack
 
 Records legitimate CAN control frames and replays them later in a different driving context.
 
-5. DoS attack
+### 5. DoS attack
 
 Floods critical control IDs at a high rate to disrupt normal control communication.
 
-6. Sensor attack
+### 6. Sensor attack
 
 Injects a false obstacle into LiDAR-derived perception data so the safety logic brakes even when the road ahead is clear.
 
-IDS
+### IDS
 
 The project includes a lightweight rule-based Intrusion Detection System that monitors control traffic and raises alerts for:
 
