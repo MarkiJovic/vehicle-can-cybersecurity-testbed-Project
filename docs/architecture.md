@@ -17,21 +17,4 @@ This project connects a simulated vehicle environment to a ROS-based monitoring 
 | IDS Node | Detects suspicious CAN behaviour |
 | Attack Node | Generates controlled attack scenarios |
 
----
-
-## Architecture Diagram
-
-Add a proper image later:
-
-```markdown
-![System Architecture](../images/system-architecture.png)
-```
-
-Temporary text diagram:
-
-```text
-CARLA Simulator <-> ROS Noetic <-> CAN Bridge <-> PCAN-USB / CAN Traffic
-                         |
-                         v
-                    Dashboard / IDS
-```
+---                    
