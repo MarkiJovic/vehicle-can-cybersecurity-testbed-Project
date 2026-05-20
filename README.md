@@ -176,7 +176,3 @@ Possible future extensions include:
 Final Year Cybersecurity Project
 
 ---
-
-## Disclaimer
-
-This repository was created for academic research and demonstration in a controlled simulation environment. It is intended for defensive cybersecurity education, testing, and awareness only.
