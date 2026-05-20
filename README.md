@@ -75,6 +75,7 @@ CARLA / BehaviorAgent -> Control -> CAN-style frames -> Vehicle
          Sensor Safety Layer          Attack Node
                 ^                           |
               LiDAR                      IDS / Logger
+```
 
 Under normal conditions, the CARLA autonomous controller drives the vehicle and mirrors its control values into CAN-style frames for monitoring and replay capture.
 
